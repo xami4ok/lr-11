@@ -1,0 +1,156 @@
+<html>
+    <head>
+<meta charset="utf-8">
+<script>
+
+function Record (text,date) {
+    this.text=text;
+    this.date=date;
+    this.time = function() {
+        return this.date.toLocaleTimeString();
+    }
+    this.day = function() {
+        return this.date.toLocaleDateString();
+    }
+}
+
+var records=[
+    new Record("Я проснулся!",
+        new Date (2013, 10, 19, 07, 00, 0, 0)),
+    new Record("Умываюсь...",
+        new Date (2014, 10, 19, 07, 10, 0, 0)),
+    new Record("Пошел варить кофе",
+        new Date (2011, 10, 19, 07, 20, 0, 0)),
+    new Record("Куда опять ключи подевались?",
+        new Date (2019, 10, 19, 07, 50, 0, 0)),
+    new Record("Опять опаздываю",
+        new Date (2010, 10, 19, 18, 05, 0, 0)),
+];
+
+function time(date) {
+    return "" + date.toLocaleTimeString();
+}
+
+function day(date) {
+    return "" + date.toLocaleDateString();
+}
+
+function displayRecords () {
+    var text = "";
+    var odd = true;
+    for (var i in records) {
+        if(odd) {
+            text += "<p style='background-color:gray'>";
+        } else {
+            text += "<p style='background-color:lightgray'>";
+        } 
+        odd = !odd;
+        text += records[i].time() + " ";
+        text += "<strong>" + records[i].day() + "</strong><br>";
+        text += records[i].text + "</p>";
+    }
+    document.getElementById("records_place").innerHTML = text;
+}
+
+function send() {
+    var r = new Record(
+        document.getElementById("newtext").value,
+            new Date());
+    records.push(r);
+    displayRecords();
+}
+
+function sort(compare) {
+    var l=records.length;
+
+    for (var i=0; i<l-1; i++) {
+        var j_min = i;
+        for (var j=i+1; j<l; j++) {
+            if (compare(records[j],records[j_min])) {
+                j_min=j;
+            }
+        }
+        var r=records[j_min];
+        records[j_min] = records[i];
+        records[i] = r;
+    }
+    displayRecords();
+}
+
+var comparers = [
+    function comp1(r1,r2) {
+        return r1.date < r2.date;
+    },
+
+    function comp2(r1,r2) {
+        return r1.date > r2.date;
+    },
+
+    function comp3(r1,r2) {
+        return r1.text < r2.text;
+    },
+
+    function comp4(r1,r2) {
+        return r1.text > r2.text;
+    },
+]
+
+// здесь пытаемся сделать функцию "найти" 
+
+function findAll() {
+    var l = records.length;
+    var tx = document.getElementById("newtext").value
+    //console.log("1");
+    
+    for (var i=0; i<l ; i++ ){
+    if (tx == records[i].text) { 
+        alert (records[i].text + "  ( " + records[i].time() + " " + records[i].day() + " )");        
+        //console.log("2"); 
+    }};
+}
+
+// здесь пытаемся сдлеать функцию показа "утренних сообщений"
+
+var times=[
+    new Record("1",
+        new Date (2013, 10, 19, 06, 00, 0, 0)),
+    new Record("2",
+        new Date (2013, 10, 19, 10, 00, 0, 0)),
+];
+
+
+
+function morningSend() {
+    var l = records.length;
+    //console.log(times[1].time())
+    var morningArray = "";
+    for (var i=0; i<l ; i++ ){
+        if((records[i].time() >= times[0].time() ) && (records[i].time() <= times[1].time())) {
+            //console.log(2)
+            morningArray += (records[i].text + " (" + records[i].time() + "" + records[i].day() + " )" + "\n");
+        }
+    };
+alert(morningArray);
+console.clear();
+}
+
+</script>
+    </head> 
+    <body onload="displayRecords()">
+
+<div id="toolbar">
+<input type="text" id="newtext"/>
+<input type="button" value="Добавить запись" onclick="send()"/>
+<input type="button" value="Найти" onclick="findAll()"/><br>
+<input type="button" value="По дате ^" onclick="sort(comparers[0])"/>
+<input type="button" value="По дате v" onclick="sort(comparers[1])"/>
+<input type="button" value="По алфавиту ^" onclick="sort(comparers[2])"/>
+<input type="button" value="По алфавиту v" onclick="sort(comparers[3])"/><br>
+<input type="button" value="Только утренние записи" onclick="morningSend()"/>
+</div>
+<table>
+<div id="records_place">
+</div>
+</table>
+    </body>
+</html>

@@ -1,0 +1,149 @@
+ <html>
+     <head>
+<meta charset="utf-8">
+<script>
+
+function draw() {
+    canvas = document.getElementById('canvas'); 
+    ctx = canvas.getContext('2d');
+    
+        ctx.beginPath();
+        ctx.moveTo(0,200);
+        ctx.lineTo(400, 200);
+        ctx.lineTo(390, 190);
+        ctx.moveTo(400, 200);
+        ctx.lineTo(390, 210);
+        ctx.moveTo(200,0);
+        ctx.lineTo(200, 400);
+        ctx.lineTo(190, 390);
+        ctx.moveTo(200, 400);
+        ctx.lineTo(210, 390);
+        ctx.strokeStyle
+        ctx.stroke();
+}
+
+function drawFunct() {
+    var x1 = parseInt(document.getElementById("x1").value);
+    console.log(x1 + "- x1 ");
+    var x2 = parseInt(document.getElementById("x2").value);
+    console.log(x2 + "- x2 ")
+    var h = parseInt(x2) - parseInt(x1);
+    
+    if (document.getElementById("kvadratn").checked) {
+    
+    //y = 0.1 * x^2 
+    
+    var y =0;
+    var x =x1 + 200;
+    var z =0;
+    ctx.beginPath();
+    for(var i=x1; i<x2; i++){
+        z = i;
+        x++;
+        y = Math.round(0.01 *z*z + 200);
+        ctx.moveTo(x-1, y-1);
+        console.log(y);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    }
+    }
+
+    if (document.getElementById("sin").checked) {
+    // y = sin x
+    var y =0;
+    var x =x1 + 200;
+    var z =0;
+    ctx.beginPath();
+    for(var i=x1; i<x2; i++){
+        z = i/100;
+        x++;
+        y = Math.round(Math.sin(5*z)*80 + 200);
+        console.log(y);
+        ctx.moveTo(x-1, y-1);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    }
+    }
+
+    if (document.getElementById("kub").checked) {
+    // x^3
+    var y =0;
+    var x =x1 + 200;
+    var z =0;
+    ctx.beginPath();
+    for(var i=x1; i<x2; i++){
+        z = i;
+        x++;
+        y = Math.round(0.0001*z*z*z + 200);
+        console.log(y);
+        ctx.moveTo(x-1, y-1);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    }
+    }
+
+    if (document.getElementById("cos").checked) {
+    // y = cos x
+    var y =0;
+    var x =x1 + 200;
+    var z =0;
+    ctx.beginPath();
+    for(var i=x1; i<x2; i++){
+        z = i/100;
+        x++;
+        y = Math.round(Math.cos(5*z)*80 + 200);
+        console.log(y);
+        ctx.moveTo(x-1, y-1);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    }
+    }
+
+    if (document.getElementById("ctg").checked) {
+    
+    var y =0;
+    var x =x1 + 200;
+    var z =0;
+    ctx.beginPath();
+    for(var i=x1; i<x2; i++){
+        z = i;
+        x++;
+        y = Math.round(Math.tan(150*z)*50 + 200);
+        console.log(y);
+        ctx.moveTo(x-1, y-1);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    }
+    }
+
+}
+
+function cler() {
+    if(canvas == null) { 
+       canvas = document.getElementById('canvas'); 
+       ctx = canvas.getContext('2d');
+   }
+ctx.clearRect(0,0,600,600);
+}
+
+</script>
+     </head> 
+     <body onload="draw()">
+           Введите интервал (от -200 до 200): X1 = <textarea id="x1" cols=4 rows = 1></textarea>
+           X2 = <textarea id="x2" cols=4 rows=1></textarea>
+            <br>
+            <label for="func">Выберите функцию:</label>
+                  <input type="radio" name="r1" id="kvadratn">x^2+4x+3</option>
+                  <input type="radio" name="r1" id="sin">sin(x)</option>
+                  <input type="radio" name="r1" id="kub">x^3</option>
+                  <input type="radio" name="r1" id="cos">cos(x)</option>
+                  <input type="radio" name="r1" id="ctg">ctg(x)</option>                
+                <input type="submit" onclick="cler();draw();drawFunct();">
+            <br><br><br>
+
+        <canvas id="canvas" width="400" height="400"></canvas>
+
+        
+
+     </body>
+</html>
